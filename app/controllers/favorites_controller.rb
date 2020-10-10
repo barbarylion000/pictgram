@@ -3,6 +3,12 @@ class FavoritesController < ApplicationController
    @favorites_topics = current_user.favorites_topics
    end
    
+   def show
+      @post = Post.find_by(id:params[:id])
+      @user = @post.user
+      @likes_count = Like.where(post_id:@post_id).count
+   end
+   
    def create
       favorite = Favorite.new
       favorite.user_id = current_user_id

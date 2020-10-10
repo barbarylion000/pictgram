@@ -1,6 +1,26 @@
 <div class="topic-index-wrapper">
   <div class="container">
     <% @topics.each do |topic| %>
+      <%= topic.like_users.count %>
+        <% if !topic.like_users.include?(current_user) %>
+          <%= link_to likes_path(topic_id: topic.id), method: :post do %>
+             <i class="far fa-heart like-btn" ></i>
+          <% end %>
+        <% else %>
+          <%= link_to likes_path(topic_id: topic.id), method: :delete do %>
+            <i class="fas fa-heart unlike-btn"></i>
+          <% end %>
+        <% end %>
+          <% if Like.find_by(user_id: @current_user.id, post_id: @post.id) %>
+            <%= link_to("/likes/#{@post.id}/destroy", {method: "post"}) do %>
+               <span class="fa fa-heart like-btn-unlike"></span>
+            <% end %>
+         <% else %>
+            <%= link_to("/likes/#{@post.id}/create", {method: "post"}) do %>
+               <span class="fa fa-heart like-btn"></span>
+            <% end %>
+         <% end %>
+         <%= @likes_count %>
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
           <div class="topic-index-single">
